@@ -1,0 +1,13 @@
+﻿@dateTimeNow.ToString("yyyy/MM//dd")
+
+@code {
+
+    DateTime dateTimeNow;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        dateTimeNow = DateTime.Now;
+    }
+}

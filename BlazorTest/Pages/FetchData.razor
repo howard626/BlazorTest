@@ -1,0 +1,84 @@
+﻿@page "/fetchdata"
+
+<h1>Employees</h1>
+
+<GridAutoComponent Items="employees"
+                    ColumnsToExcludeCSV="編號"
+                    CssClass="is-striped is-hoverable"></GridAutoComponent>
+
+
+<RepeaterComponent @ref="repeater" 
+                   Items="customers">
+    <Header>
+        <h3>
+            Customer
+        </h3>
+    </Header>
+    <Row Context="customer">
+        <div>
+            <b>@customer.CompanyName</b>
+            <button class="btn" @onclick="@(() =>
+                                            {
+                                                EditCustomer(customer);
+                                            })">Edit</button>
+        </div>
+        <div class="ml-5">@customer.ContactName</div>
+        <div class="ml-5">@customer.PhoneNumber</div>
+        <br />
+    </Row>
+    <Footer>
+
+    </Footer>
+    <EditTemplate Context="customer">
+        <div>
+            <text>Company Name:</text><input class="form-control" @bind-value="customer.CompanyName" @bind-value:event="oninput" />
+        </div>
+        <div>
+            <text>Contact Name:</text><input class="form-control" @bind-value="customer.ContactName" @bind-value:event="oninput" />
+        </div>
+        <div>
+            <text>Phone Number:</text><input class="form-control" @bind-value="customer.PhoneNumber" @bind-value:event="oninput" />
+        </div>
+    </EditTemplate>
+</RepeaterComponent>
+
+@code {
+    private RepeaterComponent<Customer> repeater;
+    private List<Employee> employees;
+    private List<Customer> customers;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        employees = new List<Employee>() {
+            new Employee { 編號 = 1, 姓名 = "壹", 職位 = "一般員工", 公司 = "一般公司"},
+            new Employee { 編號 = 2, 姓名 = "貳", 職位 = "一般員工", 公司 = "一般公司"},
+            new Employee { 編號 = 3, 姓名 = "參", 職位 = "一般員工", 公司 = "一般公司"}
+        };
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        customers = new List<Customer>() {
+            new Customer { CompanyName = "ABC 有限公司", ContactName = "A",  PhoneNumber = "00-11122233"},
+            new Customer { CompanyName = "告嘎低 有限公司", ContactName = "朱", PhoneNumber = "00-22233344"},
+            new Customer { CompanyName = "什麼有限公司", ContactName = "做", PhoneNumber = "00-33344455"}
+        };
+
+        return base.OnInitializedAsync();
+    }
+
+    private void EditCustomer(Customer customer)
+    {
+        repeater.ItemToEdit = customer;
+    }
+
+    public class Customer
+    {
+        public string CompanyName { get; set; }
+        public string ContactName { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+
+}

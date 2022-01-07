@@ -1,0 +1,18 @@
+﻿@page "/order"
+<h1>Order</h1>
+
+<TitleComponent Title="Order"
+                employee="employee"></TitleComponent>
+
+@code {
+    private Employee employee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() =>
+        {
+            System.Threading.Thread.Sleep(5000);
+            employee = new Employee { 編號 = 1, 姓名 = "壹", 職位 = "一般員工", 公司 = "一般公司" };
+        });
+    }
+}

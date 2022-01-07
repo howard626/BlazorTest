@@ -1,0 +1,21 @@
+﻿@page "/counter"
+
+<h3>ParentComponent</h3>
+Current Count : @currentCount
+<Counter SetCurrentCount="SetCurrentCountEventCallBack">
+
+</Counter>
+@code {
+    private int currentCount = 0;
+
+    private void SetCurrentCountEventCallBack(int count)
+    {
+        currentCount = count;
+    }
+
+    private void SetCurrentCountAction(int count)
+    {
+        currentCount = count;
+        StateHasChanged();
+    }
+}

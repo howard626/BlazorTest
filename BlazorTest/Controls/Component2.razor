@@ -1,0 +1,15 @@
+﻿<div class="ml-3">
+    <h3 style="color:@Color">Component2</h3>
+    <p>
+        Count : @Counter
+    </p>
+</div>
+
+
+@code {
+    [CascadingParameter(Name="Counter")]
+    public int Counter { get; set; }
+
+    [CascadingParameter(Name="Color")]
+    public string Color { get; set; }
+}

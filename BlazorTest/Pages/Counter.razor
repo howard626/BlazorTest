@@ -1,0 +1,79 @@
+﻿@inject CounterStore counterStore
+@inject IActionDispatcher actionDispatcher
+@implements IDisposable
+
+<h1>Counter</h1>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Plus Child Count</button>
+
+<button class="btn btn-primary" @onclick="IncrementStoreCount">Plus Store Count</button>
+<button class="btn btn-primary" @onclick="DecrementStoreCount">Minus Store Count</button>
+
+
+<br />
+<br />
+<CascadingValue Name="Counter" Value="@currentCount">
+    <CascadingValue Name="Color" Value="@("blue")">
+        <Component1></Component1>
+    </CascadingValue>
+</CascadingValue>
+
+<button type="button" class="button" @onclick="(()=> {
+                                    child.Show();
+                                })">Show Child</button>
+<button type="button" class="button" @onclick="(()=> {
+                                    child.Hide();
+                                })">
+    Hide Child
+</button>
+<ChildComponent @ref="child"></ChildComponent>
+@code {
+
+    private ChildComponent child;
+
+    [Parameter]
+    public EventCallback<int> SetCurrentCount { get; set; }
+
+    [Parameter]
+    public Action<int> SetCount { get; set; }
+
+    private int currentCount = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        counterStore.AddStateChangeListener(UpdateView);
+        SetCurrentCount.InvokeAsync(counterStore.GetState().Count);
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        //SetCount.Invoke(currentCount);
+    }
+
+    private void IncrementStoreCount()
+    {
+        actionDispatcher.Dispatch(new IncrementAction());
+        //counterStore.IncrementCount();
+        SetCurrentCount.InvokeAsync(counterStore.GetState().Count);
+    }
+
+    private void DecrementStoreCount()
+    {
+        //actionDispatcher.Dispatch(new DecrementAction());
+        counterStore.DecrementCount();
+        SetCurrentCount.InvokeAsync(counterStore.GetState().Count);
+    }
+
+    private void UpdateView()
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        counterStore.RemoveStateChangeListener(UpdateView);
+    }
+}

@@ -1,0 +1,38 @@
+﻿@if (display)
+{
+    <p>
+        Child Component
+    </p>
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Modal title</p>
+                <button class="delete" aria-label="close" @onclick="Hide"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success" @onclick="Hide">Save changes</button>
+                <button class="button" @onclick="Hide">Cancel</button>
+            </footer>
+        </div>
+    </div>
+}
+
+@code {
+    private bool display = false;
+
+    public void Show()
+    {
+        display = true;
+        StateHasChanged();
+    }
+
+    public void Hide()
+    {
+        display = false;
+        StateHasChanged();
+    }
+}

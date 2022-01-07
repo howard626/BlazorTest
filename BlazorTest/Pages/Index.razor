@@ -1,0 +1,117 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<br />
+<p>
+    Name : @person.SalesPerson
+</p>
+<p>
+    Amount : @person.Amount.ToString("c")
+</p>
+
+<p>
+    <input type="number" @bind-value="person.Amount" @bind-value:event="oninput" />
+</p>
+
+<p>
+    <input type="checkbox" @bind-value="person.IsActive" />
+</p>
+<p>
+    IsActive : @person.IsActive
+</p>
+<p>
+    <input type="radio" value="1" name="group" checked="@(selectedGroup == 1)" @onclick="@(() => selectedGroup = 1)" /> 1
+    <input type="radio" value="2" name="group" checked="@(selectedGroup == 2)" @onclick="@(() => selectedGroup = 2)" /> 2
+</p>
+<br />
+SelectedGroup : @selectedGroup
+<p>
+    <select @bind="selectedLocationId">
+        @foreach (var loc in person.Locations)
+        {
+            <option value="@loc.Id">@loc.City</option>
+        }
+    </select>
+</p>
+SelectedLocationId : @selectedLocationId
+
+<p>
+    <ul>
+        @foreach (var loc in person.Locations)
+        {
+            <li>@loc.City, @loc.ProvState, @loc.County </li>
+        }
+    </ul>
+</p>
+
+<p>
+    <table class="table">
+        @foreach (var loc in person.Locations)
+        {
+        <tr>
+            <td>@loc.Id</td>
+            <td><input type="text" @bind-value="@loc.City" @bind-value:event="oninput" /></td>
+            <td><input type="text" @bind-value="@loc.ProvState" @bind-value:event="oninput" /></td>
+            <td><input type="text" @bind-value="@loc.County" @bind-value:event="oninput" /></td>            
+        </tr>
+        }
+    </table>
+</p>
+
+<br />
+<br />
+
+<FieldComponent Label="Name">
+    <Field>
+        <input class="input" type="text" placeholder="Name">
+    </Field>
+</FieldComponent>
+<FieldComponent Label="Title">
+    <Field>
+        <input class="input" type="text" placeholder="Title">
+    </Field>
+</FieldComponent>
+<FieldComponent Label="Phone">
+    <Field>
+        <input class="input" type="text" placeholder="Phone">
+    </Field>
+</FieldComponent>
+
+@code {
+    Person person = null;
+    int selectedGroup = 1;
+    int selectedLocationId = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        person = new Person
+        {
+            SalesPerson = "Alex",
+            Amount = 1500.59,
+            IsActive = true,
+            Locations = new List<Location>{
+                new Location { Id = 1, City = "臺北", ProvState = "北投", County = "臺灣" },
+                new Location { Id = 2, City = "臺中", ProvState = "豐原", County = "臺灣" }
+            }
+        };
+    }
+
+    private class Person
+    {
+        public string SalesPerson { get; set; }
+        public double Amount { get; set; }
+        public bool IsActive { get; set; }
+        public List<Location> Locations;
+    }
+
+    private class Location
+    {
+        public int Id { get; set; }
+        public string City { get; set; }
+        public string ProvState { get; set; }
+        public string County { get; set; }
+    }
+}
