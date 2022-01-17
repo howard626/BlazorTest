@@ -50,12 +50,12 @@ SelectedLocationId : @selectedLocationId
     <table class="table">
         @foreach (var loc in person.Locations)
         {
-        <tr>
-            <td>@loc.Id</td>
-            <td><input type="text" @bind-value="@loc.City" @bind-value:event="oninput" /></td>
-            <td><input type="text" @bind-value="@loc.ProvState" @bind-value:event="oninput" /></td>
-            <td><input type="text" @bind-value="@loc.County" @bind-value:event="oninput" /></td>            
-        </tr>
+            <tr>
+                <td>@loc.Id</td>
+                <td><input type="text" @bind-value="@loc.City" @bind-value:event="oninput" /></td>
+                <td><input type="text" @bind-value="@loc.ProvState" @bind-value:event="oninput" /></td>
+                <td><input type="text" @bind-value="@loc.County" @bind-value:event="oninput" /></td>
+            </tr>
         }
     </table>
 </p>
@@ -63,21 +63,53 @@ SelectedLocationId : @selectedLocationId
 <br />
 <br />
 
-<FieldComponent Label="Name">
-    <Field>
-        <input class="input" type="text" placeholder="Name">
-    </Field>
-</FieldComponent>
-<FieldComponent Label="Title">
-    <Field>
-        <input class="input" type="text" placeholder="Title">
-    </Field>
-</FieldComponent>
-<FieldComponent Label="Phone">
-    <Field>
-        <input class="input" type="text" placeholder="Phone">
-    </Field>
-</FieldComponent>
+<div class="row">
+    <div class="col-8">
+        <AuthorizeView>
+            <Authorized>
+                <h3>Welcome, @context.User.Identity.Name</h3>
+                <br />
+                <FieldComponent Label="Name">
+                    <Field>
+                        <input class="input" type="text" placeholder="Name">
+                    </Field>
+                </FieldComponent>
+                <FieldComponent Label="Title">
+                    <Field>
+                        <input class="input" type="text" placeholder="Title">
+                    </Field>
+                </FieldComponent>
+                <FieldComponent Label="Phone">
+                    <Field>
+                        <input class="input" type="text" placeholder="Phone">
+                    </Field>
+                </FieldComponent>
+            </Authorized>
+            <NotAuthorized>
+                <h3>You shall not pass!</h3>
+                <img src="https://media.giphy.com/media/8abAbOrQ9rvLG/giphy.gif" class="img-fluid" />
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@if (authState != null)
+{
+    <p>
+        Name : @authState.User.Identity.Name
+    </p>
+
+    @foreach (var claim in authState.User.Claims)
+    {
+        <p>
+            Claim Type : @claim.ValueType
+        </p>
+        <p>
+            Claim Value : @claim.Value
+        </p>
+    }
+}
+
 
 @code {
     Person person = null;
@@ -113,5 +145,15 @@ SelectedLocationId : @selectedLocationId
         public string City { get; set; }
         public string ProvState { get; set; }
         public string County { get; set; }
+    }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+
+    private AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await _authState;
     }
 }

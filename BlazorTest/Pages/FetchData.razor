@@ -1,13 +1,14 @@
 ﻿@page "/fetchdata"
+@attribute [Authorize(Roles = "Admin")]
 
 <h1>Employees</h1>
 
 <GridAutoComponent Items="employees"
-                    ColumnsToExcludeCSV="編號"
-                    CssClass="is-striped is-hoverable"></GridAutoComponent>
+                   ColumnsToExcludeCSV="編號"
+                   CssClass="is-striped is-hoverable"></GridAutoComponent>
 
 
-<RepeaterComponent @ref="repeater" 
+<RepeaterComponent @ref="repeater"
                    Items="customers">
     <Header>
         <h3>
@@ -20,14 +21,15 @@
             <button class="btn" @onclick="@(() =>
                                             {
                                                 EditCustomer(customer);
-                                            })">Edit</button>
+                                            })">
+                Edit
+            </button>
         </div>
         <div class="ml-5">@customer.ContactName</div>
         <div class="ml-5">@customer.PhoneNumber</div>
         <br />
     </Row>
     <Footer>
-
     </Footer>
     <EditTemplate Context="customer">
         <div>
