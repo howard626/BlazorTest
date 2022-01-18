@@ -1,8 +1,10 @@
 ﻿@page "/login"
 @layout LoginLayout
-@inject IJSRuntime js
+@inject IJSRuntime JS
 @inject NavigationManager navigation
 @inject IAuthService authService
+@inject HttpClient Http
+@using  System.ComponentModel
 
 <div class="card">
     <div class="card-body my-2">
@@ -18,14 +20,26 @@
                 <label for="pw">Password</label>
                 <InputText @bind-Value="loginModel.Password" class="form-control" id="pw" type="password" />
             </div>
-            <button class="btn btn-primary btn-block">Submit</button>
+            @if (IsSubmit)
+            {
+                <button class="btn btn-primary btn-block" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
+            }
+            else
+            {
+                <ReCAPTCHA @ref="reCAPTCHAComponent" SiteKey="6Le7j7AUAAAAAORWIiHLTzHJtrQHOqC9d5GykoEl" OnSuccess="OnSuccess" OnExpired="OnExpired" />
+                <button disabled="@DisablePostButton" class="btn btn-primary btn-block">
+                    Submit
+                </button>
+            }
         </EditForm>
     </div>
 </div>
 
 @code {
     private bool IsSubmit = false;
-    private string test = "";
     private LoginModel loginModel = new LoginModel();
 
     private void SubmitHandler()
@@ -35,8 +49,6 @@
 
     private async Task SubmitHandlerAsync()
     {
-        //Console.WriteLine($"Email：{loginModel.Email} / Password：{loginModel.Password}");
-
         IsSubmit = true;
 
         User userInfo = new User()
@@ -52,7 +64,9 @@
         }
         else
         {
-            await js.InvokeVoidAsync("alert", "登入失敗");
+            await JS.InvokeVoidAsync("alert", "帳號或密碼錯誤");
+            ServerVerificatiing = false;
+            ValidReCAPTCHA = false;
         }
 
         IsSubmit = false;
@@ -61,6 +75,44 @@
     private void InvalidHandler()
     {
         Console.WriteLine($"{loginModel.Account} / {loginModel.Password}");
+    }
+
+    private ReCAPTCHA reCAPTCHAComponent;
+
+    private bool ValidReCAPTCHA = false;
+
+    private bool ServerVerificatiing = false;
+
+    private bool DisablePostButton => !ValidReCAPTCHA || ServerVerificatiing;
+
+    private void OnSuccess()
+    {
+        ValidReCAPTCHA = true;
+    }
+
+    private void OnExpired()
+    {
+        ValidReCAPTCHA = false;
+    }
+
+    private async Task OnClickPost()
+    {
+        if (ValidReCAPTCHA)
+        {
+            var response = await reCAPTCHAComponent.GetResponseAsync();
+            try
+            {
+                ServerVerificatiing = true;
+                StateHasChanged();
+                await Http.PostAsJsonAsync("/api/ReCAPTCHA", new ReCAPTCHAArgs { reCAPTCHAResponse = response });
+            }
+            catch (HttpRequestException e)
+            {
+                await JS.InvokeAsync<object>("alert", e.Message);
+                ServerVerificatiing = false;
+                StateHasChanged();
+            }
+        }
     }
 
 }

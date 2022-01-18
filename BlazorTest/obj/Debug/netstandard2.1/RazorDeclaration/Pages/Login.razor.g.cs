@@ -84,49 +84,63 @@ using BlazorTest;
 #nullable disable
 #nullable restore
 #line 11 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Shared;
+using BlazorTestShared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 12 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Controls;
+using BlazorTest.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 13 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.BaseComponent;
+using BlazorTest.Controls;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 14 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Models;
+using BlazorTest.BaseComponent;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 15 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Service;
+using BlazorTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 16 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Stores.CounterStore;
+using BlazorTest.Service;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 17 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
+using BlazorTest.Stores.CounterStore;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 18 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
 using BlazorTest.Stores;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Pages\Login.razor"
+using System.ComponentModel;
 
 #line default
 #line hidden
@@ -141,10 +155,9 @@ using BlazorTest.Stores;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 26 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Pages\Login.razor"
+#line 41 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Pages\Login.razor"
        
     private bool IsSubmit = false;
-    private string test = "";
     private LoginModel loginModel = new LoginModel();
 
     private void SubmitHandler()
@@ -154,8 +167,6 @@ using BlazorTest.Stores;
 
     private async Task SubmitHandlerAsync()
     {
-        //Console.WriteLine($"Email：{loginModel.Email} / Password：{loginModel.Password}");
-
         IsSubmit = true;
 
         User userInfo = new User()
@@ -171,7 +182,9 @@ using BlazorTest.Stores;
         }
         else
         {
-            await js.InvokeVoidAsync("alert", "登入失敗");
+            await JS.InvokeVoidAsync("alert", "帳號或密碼錯誤");
+            ServerVerificatiing = false;
+            ValidReCAPTCHA = false;
         }
 
         IsSubmit = false;
@@ -182,13 +195,52 @@ using BlazorTest.Stores;
         Console.WriteLine($"{loginModel.Account} / {loginModel.Password}");
     }
 
+    private ReCAPTCHA reCAPTCHAComponent;
+
+    private bool ValidReCAPTCHA = false;
+
+    private bool ServerVerificatiing = false;
+
+    private bool DisablePostButton => !ValidReCAPTCHA || ServerVerificatiing;
+
+    private void OnSuccess()
+    {
+        ValidReCAPTCHA = true;
+    }
+
+    private void OnExpired()
+    {
+        ValidReCAPTCHA = false;
+    }
+
+    private async Task OnClickPost()
+    {
+        if (ValidReCAPTCHA)
+        {
+            var response = await reCAPTCHAComponent.GetResponseAsync();
+            try
+            {
+                ServerVerificatiing = true;
+                StateHasChanged();
+                await Http.PostAsJsonAsync("/api/ReCAPTCHA", new ReCAPTCHAArgs { reCAPTCHAResponse = response });
+            }
+            catch (HttpRequestException e)
+            {
+                await JS.InvokeAsync<object>("alert", e.Message);
+                ServerVerificatiing = false;
+                StateHasChanged();
+            }
+        }
+    }
+
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient Http { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IAuthService authService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager navigation { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime js { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JS { get; set; }
     }
 }
 #pragma warning restore 1591

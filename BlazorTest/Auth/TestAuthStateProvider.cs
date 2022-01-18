@@ -1,5 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BlazorTest.Models;
+using BlazorTest.Utility;
+using BlazorTestShared;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using System;
@@ -47,37 +49,19 @@ namespace BlazorTest.Auth
                 //沒有的話，回傳匿名使用者
                 return anonymous;
             }
-            //User user = (User)JsonConvert.DeserializeObject(tokenInLocalStorage);
-            User user = new User();
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, user.Name ?? ""),
-                new Claim(ClaimTypes.Role, user.Role ?? "")
-            };
+            //將token取出轉為claim
+            var claims = JwtParser.ParseClaimsFromJwt(tokenInLocalStorage);
 
-            //httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", tokenInLocalStorage);
+            //在每次request的header中帶入bearer token
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", tokenInLocalStorage);
 
+            //回傳帶有user claim的AuthenticationState物件
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "user")));
         }
 
         public void NotifyUserAuthentication(string json)
         {
-            
-            User user = JsonConvert.DeserializeObject<User>(json);
-
-            if ("admin".Equals(user.Account))
-            {
-                user.Role = "Admin";
-            }
-            else
-            {
-                user.Role = "Role";
-            }
-            var claims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, user.Name ?? string.Empty),
-                    new Claim(ClaimTypes.Role, user.Role ?? string.Empty)
-                };
+            var claims = JwtParser.ParseClaimsFromJwt(json);
             var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "user"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authState);

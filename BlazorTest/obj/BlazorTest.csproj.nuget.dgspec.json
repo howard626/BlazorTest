@@ -4,14 +4,14 @@
     "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj": {
+    "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\BlazorTestShared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj",
-        "projectName": "BlazorTest",
-        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\BlazorTestShared.csproj",
+        "projectName": "BlazorTestShared",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\BlazorTestShared.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -43,9 +43,80 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "dependencies": {
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj",
+        "projectName": "BlazorTest",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\BlazorTest.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\BlazorTestShared.csproj": {
+                "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\BlazorTest\\BlazorTestShared\\BlazorTestShared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
             "Blazored.LocalStorage": {
               "target": "Package",
               "version": "[3.0.0, )"
+            },
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.7, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorTestShared;
 
 namespace BlazorTest.Service
 {
@@ -28,16 +29,19 @@ namespace BlazorTest.Service
         public async Task<bool> LoginAsync(User userInfo)
         {
             bool result = false;
-            bool 資料庫有資料 = true;
-            if (string.IsNullOrWhiteSpace(userInfo.Account) || String.IsNullOrWhiteSpace(userInfo.Password))
-                資料庫有資料 = false;
+            var json = JsonConvert.SerializeObject(userInfo);
+            HttpContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            if (資料庫有資料)
+            var response = await httpClient.PostAsync("/api/Auth/Login", httpContent);
+
+            if (response.IsSuccessStatusCode)
             {
-                var json = JsonConvert.SerializeObject(userInfo);
-                await localStorageService.SetItemAsync<string>("authToken", json);
+                
+                var resContent = await response.Content.ReadAsStringAsync();
+                UserToken userToken = JsonConvert.DeserializeObject<UserToken>(resContent);
 
-                ((TestAuthStateProvider)authenticationStateProvider).NotifyUserAuthentication(json);
+                await localStorageService.SetItemAsync<string>("authToken", userToken.token);
+                ((TestAuthStateProvider)authenticationStateProvider).NotifyUserAuthentication(userToken.token);
 
                 result = true;
             }

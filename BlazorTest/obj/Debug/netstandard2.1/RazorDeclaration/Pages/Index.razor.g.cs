@@ -84,48 +84,55 @@ using BlazorTest;
 #nullable disable
 #nullable restore
 #line 11 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Shared;
+using BlazorTestShared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 12 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Controls;
+using BlazorTest.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 13 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.BaseComponent;
+using BlazorTest.Controls;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 14 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Models;
+using BlazorTest.BaseComponent;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 15 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Service;
+using BlazorTest.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 16 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
-using BlazorTest.Stores.CounterStore;
+using BlazorTest.Service;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 17 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
+using BlazorTest.Stores.CounterStore;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 18 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\_Imports.razor"
 using BlazorTest.Stores;
 
 #line default
@@ -140,7 +147,7 @@ using BlazorTest.Stores;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 114 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Pages\Index.razor"
+#line 104 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Pages\Index.razor"
        
     Person person = null;
     int selectedGroup = 1;
