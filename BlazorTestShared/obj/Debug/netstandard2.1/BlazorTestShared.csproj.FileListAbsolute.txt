@@ -7,4 +7,3 @@ C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTestShared\obj\Debug\netstandard
 C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTestShared\obj\Debug\netstandard2.1\BlazorTestShared.csproj.CoreCompileInputs.cache
 C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTestShared\obj\Debug\netstandard2.1\BlazorTestShared.dll
 C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTestShared\obj\Debug\netstandard2.1\BlazorTestShared.pdb
-C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTestShared\obj\Debug\netstandard2.1\BlazorTestShared.csproj.AssemblyReference.cache

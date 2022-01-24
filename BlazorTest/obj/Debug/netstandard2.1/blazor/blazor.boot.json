@@ -6,7 +6,7 @@
   "linkerEnabled": false,
   "resources": {
     "assembly": {
-      "BlazorTest.dll": "sha256-8rO1rSzcQgJWvFZMQs8cBw7sdATSghYnyp1MTzCcpSU=",
+      "BlazorTest.dll": "sha256-MP7Uk+QwGj+\/7RgY0\/2UmdmaoDeZ8swS3pgh04VCPV8=",
       "Newtonsoft.Json.dll": "sha256-mRd6TL4DYldo1ko9czkjEDcoiPdMPrJxz3dekwV6OOY=",
       "netstandard.dll": "sha256-\/zcPVM75OAY+joGVM8yIC1gO1SFYWP1CFERgQ8PJkfA=",
       "System.Xml.Linq.dll": "sha256-IPbQMdJxZXdk8HTlaPyXdQ6Zb82iZLphnM74yO4EURQ=",
@@ -79,7 +79,7 @@
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-czNf3btAeBW\/vvID5LAfgcsNZ+GM3ssVuPaMflcg0rs="
     },
     "pdb": {
-      "BlazorTest.pdb": "sha256-c5sLhTE34ih\/mE4mP9xIRXeRuhN0Nx2yCowBfgiEQm0=",
+      "BlazorTest.pdb": "sha256-eimNCGN8XwaUyvKgqPQmEpTA6volRlA3ygQr0xNQuRM=",
       "BlazorTestShared.pdb": "sha256-HMTy5nfeVSUMhvAHIVKJyOHBBaGuPmvtFAo1jmzCrFI="
     },
     "runtime": {

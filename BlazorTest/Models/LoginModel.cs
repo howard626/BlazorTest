@@ -9,19 +9,11 @@ namespace BlazorTest.Models
     public class LoginModel
     {
         [Required]
+        [Display(Name = "帳號")]
         public string Account { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-    }
-
-    public class RegisterModel
-    {
-        [Required]
-        public string Account { get; set; }
-
-        [Required]
+        [Display(Name = "密碼")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

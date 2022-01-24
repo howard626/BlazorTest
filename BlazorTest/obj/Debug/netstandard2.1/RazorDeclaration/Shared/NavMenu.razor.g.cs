@@ -146,11 +146,13 @@ using BlazorTest.Stores;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 55 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Shared\NavMenu.razor"
+#line 61 "C:\Users\USER\Documents\GitHub\BlazorTest\BlazorTest\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string roles = "member,admin";
 
     protected override void OnInitialized()
     {

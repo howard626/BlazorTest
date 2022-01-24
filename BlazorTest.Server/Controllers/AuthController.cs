@@ -30,16 +30,23 @@ namespace BlazorTest.Server.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<UserToken>> Login([FromBody] User userInfo)
+        public ActionResult<UserToken> Login([FromBody] User userInfo)
         {
             User user = _userService.UserLogin(userInfo.Account, userInfo.Password);
-            //驗證方式純為Demo用
+            
             if (user != null)
             {
                 return BuildToken(user);
             }
 
             return BadRequest("帳號或密碼錯誤");
+        }
+
+        [HttpPost("Register")]
+        public ActionResult<string> Register([FromBody] RegisterModel register)
+        {
+
+            return _userService.Register(register);
         }
 
         /// <summary>
@@ -50,11 +57,17 @@ namespace BlazorTest.Server.Controllers
         private UserToken BuildToken(User userInfo)
         {
             //記在jwt payload中的聲明，可依專案需求自訂Claim
+            var roles = userInfo.Role.Split(',');
+
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, userInfo.Name ?? string.Empty),
-                new Claim(ClaimTypes.Role, userInfo.Role ?? string.Empty)
+                new Claim(ClaimTypes.Name, userInfo.Name ?? string.Empty)
             };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             //取得對稱式加密 JWT Signature 的金鑰
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:Key"]));

@@ -7,5 +7,7 @@ namespace BlazorTest.Service
     {
         Task<bool> LoginAsync(User userInfo);
         Task LogoutAsync();
+
+        Task<string> RegisterAsync(RegisterModel userInfo);
     }
 }

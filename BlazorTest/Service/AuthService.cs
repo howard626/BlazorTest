@@ -49,6 +49,22 @@ namespace BlazorTest.Service
             return result;
         }
 
+        public async Task<string> RegisterAsync(RegisterModel userInfo)
+        {
+            string result = string.Empty;
+            var json = JsonConvert.SerializeObject(userInfo);
+            HttpContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("/api/Auth/Register", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+            }
+
+            return result;
+        }
+
         public async Task LogoutAsync()
         {
             await localStorageService.RemoveItemAsync("authToken");
